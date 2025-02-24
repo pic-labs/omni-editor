@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, send_from_directory
 
 from service.download_service import download
 
@@ -12,3 +12,11 @@ class Router:
         @self.app.route('/download/', methods=['GET'])
         def download_file():
             return download(request)
+
+        @self.app.route('/index.html')
+        def serve_index():
+            return send_from_directory('static', 'index.html')
+
+        @self.app.route('/audio/<path:filename>')
+        def get_image(filename):
+            return send_from_directory('static/audio', filename)

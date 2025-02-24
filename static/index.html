@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+</head>
+<body>
+<h1>WebSocket Client</h1>
+<textarea id="paramInput" rows="50" cols="70" placeholder="Enter parameters in JSON format">
+{
+    "bgm": "http://localhost:8080/audio/echoes_of_love.wav",
+    "shots": [
+        {
+            "caption": "Hello, World!",
+            "captions": {
+                "type": 1,
+                "items": [
+                    {
+                        "text": "轩辕逸轩在御书房内得知父皇轩辕炎要为他赐婚",
+                        "startTime": 0,
+                        "endTime": 3392
+                    },
+                    {
+                        "text": "感到非常不乐意",
+                        "startTime": 3392,
+                        "endTime": 5414
+                    }
+                ]
+            },
+            "audio": "http://bj.oss.qiyi.storage/mp-renzheng/material/ugc_openapi_iqiyi_hawkeye_file/20250211/f5/cc/67974d9d4def4a1a8324b05af2872376.mp3",
+            "img": "http://bj.oss.qiyi.storage/mp-renzheng/material/ugc_openapi_iqiyi_hawkeye_file/20250211/b1/f8/07efacc3c92d4598bc98888e0d18021b.png"
+        }
+    ]
+}
+</textarea><br>
+<button onclick="sendCompileVideoRequest()">Compile Video</button>
+<pre id="response"></pre>
+
+<script>
+    // WebSocket URL
+    const wsUrl = 'ws://localhost:8765';
+
+    // Create a new WebSocket connection
+    const socket = new WebSocket(wsUrl);
+
+    // Connection opened
+    socket.addEventListener('open', function (event) {
+        console.log('WebSocket connection established');
+    });
+
+    // Listen for messages
+    socket.addEventListener('message', function (event) {
+        console.log('Message from server:', event.data);
+        document.getElementById('response').textContent = 'Response from server: ' + event.data;
+    });
+
+    // Connection closed
+    socket.addEventListener('close', function (event) {
+        console.log('WebSocket connection closed');
+    });
+
+    // Error handling
+    socket.addEventListener('error', function (error) {
+        console.error('WebSocket error:', error);
+    });
+
+    // Function to send compile_video request
+    function sendCompileVideoRequest() {
+        const task_id = 'task123'; // Replace with your task ID
+        const paramInput = document.getElementById('paramInput').value;
+
+        try {
+            const param = JSON.parse(paramInput);
+            const request = {
+                type: 'compile_video',
+                task_id: task_id,
+                param: param
+            };
+
+            socket.send(JSON.stringify(request));
+            console.log('Sent compile_video request:', request);
+        } catch (e) {
+            console.error('Invalid JSON format:', e);
+            alert('Please enter valid JSON format for parameters.');
+        }
+    }
+</script>
+</body>
+</html>

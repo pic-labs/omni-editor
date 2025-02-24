@@ -1,2 +1,3 @@
-FILE_DIR = "your file dir"
-CAPTION_FONT = "your fonts"
+FILE_DIR = "./tmp/"
+CAPTION_FONT = "NotoSansSC.ttf"
+# "Microsoft-YaHei-Bold-&-Microsoft-YaHei-UI-Bold"

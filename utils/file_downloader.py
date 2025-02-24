@@ -39,7 +39,7 @@ def get_filename(url, response):
     return get_filename_from_cd(cd) or get_filename_from_url(url)
 
 
-def download(url, sub_path, path="/data/omni-editor/download/{sub_path}/"):
+def download(url, sub_path, path="./tmp/data/omni-editor/download/{sub_path}/"):
     try:
         response = requests.get(url)
         if response.status_code == 200:

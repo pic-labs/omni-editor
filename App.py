@@ -19,7 +19,6 @@ app = Flask(__name__)
 CORS(app, resources=r'/*', supports_credentials=True)
 logger = logging.getLogger(__name__)
 
-
 async def start_websocket_server():
     async with websockets.serve(handle, '0.0.0.0', 8765, ping_interval=60, ping_timeout=600):
         await asyncio.Future()
